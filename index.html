@@ -152,7 +152,7 @@
     <h2 class="pandy">PandyVR Merch</h2>
     <div class="merch-items">
       <div class="item-card">
-        <img src="https://cdn.discordapp.com/attachments/1307086950796230706/1391183936373260378/IMG_0533.png?ex=686af881&is=6869a701&hm=946eda273114c5b1a5f18730a9f2f002af8fa1255bcdfc3a3890c9af472c058a&" alt="PandyVR Sticker Pack" />
+        <img src="" alt="PandyVR Sticker Pack" />
         <h3>Sticker Pack</h3>
         <p class="coming-soon">Coming Soon</p>
         <button onclick="addToWishlist('PandyVR Sticker Pack')">❤️ Wishlist</button>
@@ -200,7 +200,6 @@
         tab.classList.add('active');
         document.getElementById(tab.dataset.tab).classList.add('active');
 
-        // Theme switch
         if (tab.dataset.tab === 'pandy') {
           root.style.setProperty('--main-color', '#00ff88');
         } else if (tab.dataset.tab === 'd1spa4') {
@@ -211,7 +210,6 @@
       });
     });
 
-    // Save & Load from localStorage
     const wishlistKey = "pandyvr_wishlist";
     const cartKey = "pandyvr_cart";
 
@@ -245,13 +243,9 @@
     }
 
     function addToCart(item) {
-      if (!cart.includes(item)) {
-        cart.push(item);
-        updateList("cart-list", cart, cartKey);
-      }
+      alert("This item is coming soon and can't be added to cart.");
     }
 
-    // On load
     updateList("wishlist-list", wishlist, wishlistKey);
     updateList("cart-list", cart, cartKey);
   </script>
