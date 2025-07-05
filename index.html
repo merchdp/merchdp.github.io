@@ -2,54 +2,92 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PandyVR × D1SPA4VR Merch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
       background-color: #000;
+      font-family: Arial, sans-serif;
       color: white;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #111;
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      box-shadow: 0 0 10px #00ff88;
+    }
+
+    .glow {
+      color: #00ff88;
+      text-shadow: 0 0 5px #00ff88;
     }
 
     nav {
-      background-color: #111;
       display: flex;
       justify-content: center;
-      gap: 30px;
-      padding: 20px 0;
-      box-shadow: 0 0 10px #00ff88;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      background-color: #111;
+      padding: 10px 0;
+      gap: 20px;
+      border-top: 1px solid #222;
+      border-bottom: 1px solid #222;
     }
 
     nav a {
       color: #00ff88;
       text-decoration: none;
-      font-size: 18px;
-      transition: color 0.3s, text-shadow 0.3s;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 5px;
+      transition: background 0.3s;
     }
 
     nav a:hover {
-      color: white;
-      text-shadow: 0 0 5px #00ff88;
-    }
-
-    header {
-      text-align: center;
-      padding: 50px 20px;
-    }
-
-    header h1 {
-      font-size: 48px;
-      text-shadow: 0 0 10px #00ff88;
+      background-color: #00ff8833;
     }
 
     section {
-      padding: 50px 20px;
-      max-width: 1000px;
-      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .merch-section h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .merch-items {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .item-card {
+      background: #111;
+      border-radius: 10px;
+      padding: 20px;
+      width: 250px;
+      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    }
+
+    .item-card img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .item-card h3 {
+      margin: 10px 0 5px;
+    }
+
+    .coming-soon {
+      color: #aaa;
+      font-style: italic;
     }
 
     .green-glow {
@@ -62,98 +100,88 @@
       text-shadow: 0 0 5px #ff4444;
     }
 
-    .merch-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 30px;
-      margin-top: 30px;
-    }
-
-    .item {
-      background: #111;
-      border-radius: 10px;
+    footer {
       padding: 20px;
       text-align: center;
-      box-shadow: 0 0 10px rgba(0,255,136,0.1);
-    }
-
-    .item img {
-      width: 100%;
-      border-radius: 8px;
-    }
-
-    .item h3 {
-      margin: 10px 0 5px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      color: #666;
+      background: #111;
       font-size: 14px;
+      color: #888;
+      border-top: 1px solid #222;
     }
   </style>
 </head>
 <body>
+  <header>
+    <span class="glow">PandyVR × D1SPA4VR</span> Merch
+  </header>
+
   <nav>
     <a href="#home">Home</a>
-    <a href="#pandy">PandyVR Merch</a>
-    <a href="#d1spa4vr">D1SPA4VR Merch</a>
+    <a href="#pandy">PandyVR</a>
+    <a href="#d1spa4">D1SPA4VR</a>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
   </nav>
 
-  <header id="home">
-    <h1><span class="green-glow">PandyVR</span> × <span class="red-glow">D1SPA4VR</span> Merch</h1>
-    <p>Exclusive merch: stickers, models, cups & more.</p>
-  </header>
+  <section id="home">
+    <h2 class="glow">Welcome to the Merch Store</h2>
+    <p>All items are coming soon. Stay tuned and join our Discord!</p>
+  </section>
 
-  <section id="pandy">
-    <h2 class="green-glow">🟢 PandyVR Merch</h2>
-    <div class="merch-grid">
-      <div class="item">
-        <img src="https://via.placeholder.com/200" alt="Sticker" />
-        <h3>PandyVR Sticker</h3>
-        <p>$4.99</p>
+  <section id="pandy" class="merch-section">
+    <h2 class="green-glow">PandyVR Merch</h2>
+    <div class="merch-items">
+      <div class="item-card">
+        <img src="https://via.placeholder.com/250x150?text=Sticker" alt="Sticker" />
+        <h3>Sticker Pack</h3>
+        <p class="coming-soon">Coming Soon</p>
       </div>
-      <div class="item">
-        <img src="https://via.placeholder.com/200" alt="3D Model" />
-        <h3>3D Printed PandyVR</h3>
-        <p>$19.99</p>
+      <div class="item-card">
+        <img src="https://via.placeholder.com/250x150?text=3D+Model" alt="3D Model" />
+        <h3>3D Model Figure</h3>
+        <p class="coming-soon">Coming Soon</p>
+      </div>
+      <div class="item-card">
+        <img src="https://via.placeholder.com/250x150?text=Cup" alt="Cup" />
+        <h3>Mug / Cup</h3>
+        <p class="coming-soon">Coming Soon</p>
       </div>
     </div>
   </section>
 
-  <section id="d1spa4vr">
-    <h2 class="red-glow">🔴 D1SPA4VR Merch</h2>
-    <div class="merch-grid">
-      <div class="item">
-        <img src="https://via.placeholder.com/200" alt="Sticker" />
-        <h3>D1SPA4VR Sticker</h3>
-        <p>$4.99</p>
+  <section id="d1spa4" class="merch-section">
+    <h2 class="red-glow">D1SPA4VR Merch</h2>
+    <div class="merch-items">
+      <div class="item-card">
+        <img src="https://via.placeholder.com/250x150?text=Sticker" alt="Sticker" />
+        <h3>Sticker Pack</h3>
+        <p class="coming-soon">Coming Soon</p>
       </div>
-      <div class="item">
-        <img src="https://via.placeholder.com/200" alt="Cup" />
-        <h3>D1SPA4VR Mug</h3>
-        <p>$14.99</p>
+      <div class="item-card">
+        <img src="https://via.placeholder.com/250x150?text=3D+Model" alt="3D Model" />
+        <h3>3D Model Figure</h3>
+        <p class="coming-soon">Coming Soon</p>
+      </div>
+      <div class="item-card">
+        <img src="https://via.placeholder.com/250x150?text=Cup" alt="Cup" />
+        <h3>Mug / Cup</h3>
+        <p class="coming-soon">Coming Soon</p>
       </div>
     </div>
   </section>
 
   <section id="about">
-    <h2>About</h2>
-    <p>We're just two creators bringing our Gorilla Tag personalities into real life through cool custom merch.</p>
+    <h2 class="glow">About</h2>
+    <p>This site was made by PandyVR and D1SPA4VR to share our creations and cool merch with fans and friends!</p>
   </section>
 
   <section id="contact">
-    <h2>Contact</h2>
-    <p>Questions? DM us on Discord:<br>
-      <strong>@PandyVR</strong> or <strong>@D1SPA4VR</strong>
-    </p>
+    <h2 class="glow">Contact</h2>
+    <p>Join our Discord or DM us for support or updates!</p>
   </section>
 
   <footer>
-    &copy; 2025 PandyVR × D1SPA4VR. All rights reserved.
+    © 2025 PandyVR & D1SPA4VR Merch. All rights reserved.
   </footer>
 </body>
 </html>
