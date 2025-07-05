@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>PandyVR × D1SPA4VR Merch</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
       --main-color: #00ff88;
@@ -24,8 +24,14 @@
       font-weight: bold;
       box-shadow: 0 0 10px var(--main-color);
     }
-    .name-glow span.pandy { color: #00ff88; text-shadow: 0 0 5px #00ff88; }
-    .name-glow span.d1spa { color: #ff4444; text-shadow: 0 0 5px #ff4444; }
+    .name-glow span.pandy {
+      color: #00ff88;
+      text-shadow: 0 0 5px #00ff88;
+    }
+    .name-glow span.d1spa {
+      color: #ff4444;
+      text-shadow: 0 0 5px #ff4444;
+    }
 
     nav {
       display: flex;
@@ -78,9 +84,6 @@
     .item-card img {
       max-width: 100%;
       border-radius: 8px;
-    }
-    .item-card input[type="file"] {
-      margin-top: 10px;
     }
     .item-card button {
       margin-top: 10px;
@@ -136,8 +139,7 @@
     <h2 class="pandy">PandyVR Merch</h2>
     <div class="merch-items">
       <div class="item-card">
-        <img src="https://via.placeholder.com/250x150?text=Sticker" id="img1" />
-        <input type="file" accept="image/*" onchange="loadImage(event, 'img1')" />
+        <img src="https://cdn.discordapp.com/attachments/1307086950796230706/1391183936373260378/IMG_0533.png?ex=686af881&is=6869a701&hm=946eda273114c5b1a5f18730a9f2f002af8fa1255bcdfc3a3890c9af472c058a&" alt="PandyVR Sticker Pack" />
         <h3>Sticker Pack</h3>
         <p class="coming-soon">Coming Soon</p>
         <button onclick="addToWishlist('PandyVR Sticker Pack')">❤️ Wishlist</button>
@@ -150,8 +152,7 @@
     <h2 class="d1spa">D1SPA4VR Merch</h2>
     <div class="merch-items">
       <div class="item-card">
-        <img src="https://via.placeholder.com/250x150?text=Mug" id="img2" />
-        <input type="file" accept="image/*" onchange="loadImage(event, 'img2')" />
+        <img src="https://cdn.discordapp.com/attachments/123456789012345678/2222222222222222222/mug.png" alt="D1SPA4VR Mug" />
         <h3>Mug</h3>
         <p class="coming-soon">Coming Soon</p>
         <button onclick="addToWishlist('D1SPA4VR Mug')">❤️ Wishlist</button>
@@ -209,11 +210,6 @@
       const li = document.createElement('li');
       li.textContent = item;
       list.appendChild(li);
-    }
-
-    function loadImage(event, id) {
-      const img = document.getElementById(id);
-      img.src = URL.createObjectURL(event.target.files[0]);
     }
   </script>
 </body>
