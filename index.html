@@ -94,6 +94,10 @@
       cursor: pointer;
       border-radius: 5px;
     }
+    .item-card button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
     .coming-soon {
       color: #aaa;
       font-style: italic;
@@ -113,6 +117,15 @@
       text-align: left;
       margin: 20px auto;
       max-width: 600px;
+    }
+
+    ul li button {
+      background: none;
+      border: none;
+      color: red;
+      margin-left: 10px;
+      cursor: pointer;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -143,7 +156,7 @@
         <h3>Sticker Pack</h3>
         <p class="coming-soon">Coming Soon</p>
         <button onclick="addToWishlist('PandyVR Sticker Pack')">❤️ Wishlist</button>
-        <button onclick="addToCart('PandyVR Sticker Pack')">🛒 Add to Cart</button>
+        <button disabled>🛒 Add to Cart</button>
       </div>
     </div>
   </section>
@@ -156,7 +169,7 @@
         <h3>Mug</h3>
         <p class="coming-soon">Coming Soon</p>
         <button onclick="addToWishlist('D1SPA4VR Mug')">❤️ Wishlist</button>
-        <button onclick="addToCart('D1SPA4VR Mug')">🛒 Add to Cart</button>
+        <button disabled>🛒 Add to Cart</button>
       </div>
     </div>
   </section>
@@ -198,19 +211,49 @@
       });
     });
 
+    // Save & Load from localStorage
+    const wishlistKey = "pandyvr_wishlist";
+    const cartKey = "pandyvr_cart";
+
+    let wishlist = JSON.parse(localStorage.getItem(wishlistKey)) || [];
+    let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+
+    function updateList(id, listData, key) {
+      const listElement = document.getElementById(id);
+      listElement.innerHTML = "";
+      listData.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `${item} <button onclick="removeItem('${id}', ${index}, '${key}')">❌</button>`;
+        listElement.appendChild(li);
+      });
+      localStorage.setItem(key, JSON.stringify(listData));
+    }
+
+    function removeItem(listId, index, key) {
+      const list = (key === wishlistKey) ? wishlist : cart;
+      list.splice(index, 1);
+      if (key === wishlistKey) wishlist = list;
+      else cart = list;
+      updateList(listId, list, key);
+    }
+
     function addToWishlist(item) {
-      const list = document.getElementById('wishlist-list');
-      const li = document.createElement('li');
-      li.textContent = item;
-      list.appendChild(li);
+      if (!wishlist.includes(item)) {
+        wishlist.push(item);
+        updateList("wishlist-list", wishlist, wishlistKey);
+      }
     }
 
     function addToCart(item) {
-      const list = document.getElementById('cart-list');
-      const li = document.createElement('li');
-      li.textContent = item;
-      list.appendChild(li);
+      if (!cart.includes(item)) {
+        cart.push(item);
+        updateList("cart-list", cart, cartKey);
+      }
     }
+
+    // On load
+    updateList("wishlist-list", wishlist, wishlistKey);
+    updateList("cart-list", cart, cartKey);
   </script>
 </body>
 </html>
