@@ -126,6 +126,27 @@
       cursor: pointer;
       font-weight: bold;
     }
+
+    /* Notification styles */
+    #noti {
+      position: fixed;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--main-color);
+      color: black;
+      padding: 12px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      z-index: 9999;
+      box-shadow: 0 0 10px var(--main-color);
+      transition: top 0.4s ease-in-out, opacity 0.4s;
+      opacity: 0;
+    }
+    #noti.show {
+      top: 20px;
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
@@ -133,12 +154,13 @@
     <span class="pandy">PandyVR</span> × <span class="d1spa">D1SPA4VR</span> Merch
   </header>
 
+  <div id="noti">✅ Added to wishlist!</div>
+
   <nav>
     <button class="tab-button active" data-tab="home">Home</button>
     <button class="tab-button" data-tab="pandy">PandyVR</button>
     <button class="tab-button" data-tab="d1spa4">D1SPA4VR</button>
     <button class="tab-button" data-tab="wishlist">Wishlist</button>
-    <!-- Cart tab removed -->
   </nav>
 
   <section id="home" class="active">
@@ -151,7 +173,7 @@
     <h2 class="pandy">PandyVR Merch</h2>
     <div class="merch-items">
       <div class="item-card">
-        <img src="https://cdn.discordapp.com/attachments/1307086950796230706/1391183936373260378/IMG_0533.png?ex=686af881&is=6869a701&hm=946eda273114c5b1a5f18730a9f2f002af8fa1255bcdfc3a3890c9af472c058a&" alt="PandyVR Sticker Pack" />
+        <img src="https://cdn.discordapp.com/attachments/1307086950796230706/1391183936373260378/IMG_0533.png" alt="PandyVR Sticker Pack" />
         <h3>Sticker Pack</h3>
         <p class="coming-soon">Coming Soon</p>
         <button onclick="addToWishlist('PandyVR Sticker Pack')">❤️ Wishlist</button>
@@ -164,7 +186,7 @@
     <h2 class="d1spa">D1SPA4VR Merch</h2>
     <div class="merch-items">
       <div class="item-card">
-        <img src="https://cdn.discordapp.com/attachments/123456789012345678/2222222222222222222/mug.png" alt="D1SPA4VR Mug" />
+        <img src="https://cdn.discordapp.com/attachments/1307086950796230706/1391183936373260378/IMG_0533.png" alt="D1SPA4VR Mug" />
         <h3>Mug</h3>
         <p class="coming-soon">Coming Soon</p>
         <button onclick="addToWishlist('D1SPA4VR Mug')">❤️ Wishlist</button>
@@ -176,12 +198,6 @@
   <section id="wishlist">
     <h2>Wishlist</h2>
     <ul id="wishlist-list"></ul>
-  </section>
-
-  <!-- Cart section hidden but still here for future -->
-  <section id="cart" style="display: none;">
-    <h2>Cart</h2>
-    <ul id="cart-list"></ul>
   </section>
 
   <footer>
@@ -236,11 +252,17 @@
         if (!wishlist.includes(item)) {
           wishlist.push(item);
           updateList("wishlist-list", wishlist, wishlistKey);
+          showNoti("✅ Added to wishlist!");
         }
       }
 
-      window.addToCart = function(item) {
-        alert("This item is coming soon and can't be added to cart.");
+      function showNoti(message) {
+        const noti = document.getElementById("noti");
+        noti.textContent = message;
+        noti.classList.add("show");
+        setTimeout(() => {
+          noti.classList.remove("show");
+        }, 2000);
       }
 
       updateList("wishlist-list", wishlist, wishlistKey);
