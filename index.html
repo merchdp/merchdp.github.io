@@ -112,8 +112,7 @@
       border-top: 1px solid #222;
     }
 
-    ul#wishlist-list,
-    ul#cart-list {
+    ul#wishlist-list {
       text-align: left;
       margin: 20px auto;
       max-width: 600px;
@@ -139,7 +138,7 @@
     <button class="tab-button" data-tab="pandy">PandyVR</button>
     <button class="tab-button" data-tab="d1spa4">D1SPA4VR</button>
     <button class="tab-button" data-tab="wishlist">Wishlist</button>
-    <button class="tab-button" data-tab="cart">Cart</button>
+    <!-- Cart tab removed -->
   </nav>
 
   <section id="home" class="active">
@@ -152,7 +151,7 @@
     <h2 class="pandy">PandyVR Merch</h2>
     <div class="merch-items">
       <div class="item-card">
-        <img src="" alt="PandyVR Sticker Pack" />
+        <img src="https://cdn.discordapp.com/attachments/1307086950796230706/1391183936373260378/IMG_0533.png?ex=686af881&is=6869a701&hm=946eda273114c5b1a5f18730a9f2f002af8fa1255bcdfc3a3890c9af472c058a&" alt="PandyVR Sticker Pack" />
         <h3>Sticker Pack</h3>
         <p class="coming-soon">Coming Soon</p>
         <button onclick="addToWishlist('PandyVR Sticker Pack')">❤️ Wishlist</button>
@@ -179,7 +178,8 @@
     <ul id="wishlist-list"></ul>
   </section>
 
-  <section id="cart">
+  <!-- Cart section hidden but still here for future -->
+  <section id="cart" style="display: none;">
     <h2>Cart</h2>
     <ul id="cart-list"></ul>
   </section>
@@ -189,65 +189,62 @@
   </footer>
 
   <script>
-    const tabs = document.querySelectorAll('.tab-button');
-    const sections = document.querySelectorAll('section');
-    const root = document.documentElement;
+    window.onload = () => {
+      const tabs = document.querySelectorAll('.tab-button');
+      const sections = document.querySelectorAll('section');
+      const root = document.documentElement;
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        sections.forEach(s => s.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById(tab.dataset.tab).classList.add('active');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          sections.forEach(s => s.classList.remove('active'));
+          tab.classList.add('active');
+          document.getElementById(tab.dataset.tab).classList.add('active');
 
-        if (tab.dataset.tab === 'pandy') {
-          root.style.setProperty('--main-color', '#00ff88');
-        } else if (tab.dataset.tab === 'd1spa4') {
-          root.style.setProperty('--main-color', '#ff4444');
-        } else {
-          root.style.setProperty('--main-color', '#00ff88');
-        }
+          if (tab.dataset.tab === 'pandy') {
+            root.style.setProperty('--main-color', '#00ff88');
+          } else if (tab.dataset.tab === 'd1spa4') {
+            root.style.setProperty('--main-color', '#ff4444');
+          } else {
+            root.style.setProperty('--main-color', '#00ff88');
+          }
+        });
       });
-    });
 
-    const wishlistKey = "pandyvr_wishlist";
-    const cartKey = "pandyvr_cart";
+      const wishlistKey = "pandyvr_wishlist";
+      let wishlist = JSON.parse(localStorage.getItem(wishlistKey)) || [];
 
-    let wishlist = JSON.parse(localStorage.getItem(wishlistKey)) || [];
-    let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
-
-    function updateList(id, listData, key) {
-      const listElement = document.getElementById(id);
-      listElement.innerHTML = "";
-      listData.forEach((item, index) => {
-        const li = document.createElement('li');
-        li.innerHTML = `${item} <button onclick="removeItem('${id}', ${index}, '${key}')">❌</button>`;
-        listElement.appendChild(li);
-      });
-      localStorage.setItem(key, JSON.stringify(listData));
-    }
-
-    function removeItem(listId, index, key) {
-      const list = (key === wishlistKey) ? wishlist : cart;
-      list.splice(index, 1);
-      if (key === wishlistKey) wishlist = list;
-      else cart = list;
-      updateList(listId, list, key);
-    }
-
-    function addToWishlist(item) {
-      if (!wishlist.includes(item)) {
-        wishlist.push(item);
-        updateList("wishlist-list", wishlist, wishlistKey);
+      function updateList(id, listData, key) {
+        const listElement = document.getElementById(id);
+        listElement.innerHTML = "";
+        listData.forEach((item, index) => {
+          const li = document.createElement('li');
+          li.innerHTML = `${item} <button onclick="removeItem('${id}', ${index}, '${key}')">❌</button>`;
+          listElement.appendChild(li);
+        });
+        localStorage.setItem(key, JSON.stringify(listData));
       }
-    }
 
-    function addToCart(item) {
-      alert("This item is coming soon and can't be added to cart.");
-    }
+      window.removeItem = function(listId, index, key) {
+        if (key === wishlistKey) {
+          wishlist.splice(index, 1);
+          updateList(listId, wishlist, key);
+        }
+      }
 
-    updateList("wishlist-list", wishlist, wishlistKey);
-    updateList("cart-list", cart, cartKey);
+      window.addToWishlist = function(item) {
+        if (!wishlist.includes(item)) {
+          wishlist.push(item);
+          updateList("wishlist-list", wishlist, wishlistKey);
+        }
+      }
+
+      window.addToCart = function(item) {
+        alert("This item is coming soon and can't be added to cart.");
+      }
+
+      updateList("wishlist-list", wishlist, wishlistKey);
+    };
   </script>
 </body>
 </html>
