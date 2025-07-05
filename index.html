@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>PandyVR × D1SPA4VR Merch</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+    :root {
+      --main-color: #00ff88;
+    }
     body {
       background-color: #000;
       font-family: Arial, sans-serif;
       color: white;
       margin: 0;
       padding: 0;
+      transition: background 0.3s, color 0.3s;
     }
     header {
       background: #111;
@@ -18,12 +22,11 @@
       text-align: center;
       font-size: 28px;
       font-weight: bold;
-      box-shadow: 0 0 10px #00ff88;
+      box-shadow: 0 0 10px var(--main-color);
     }
-    .glow {
-      color: #00ff88;
-      text-shadow: 0 0 5px #00ff88;
-    }
+    .name-glow span.pandy { color: #00ff88; text-shadow: 0 0 5px #00ff88; }
+    .name-glow span.d1spa { color: #ff4444; text-shadow: 0 0 5px #ff4444; }
+
     nav {
       display: flex;
       justify-content: center;
@@ -36,7 +39,7 @@
     nav button {
       background: none;
       border: none;
-      color: #00ff88;
+      color: var(--main-color);
       font-weight: bold;
       font-size: 16px;
       cursor: pointer;
@@ -45,8 +48,10 @@
     }
     nav button:hover,
     nav button.active {
-      background-color: #00ff8833;
+      background-color: var(--main-color);
+      color: black;
     }
+
     section {
       display: none;
       padding: 40px 20px;
@@ -55,6 +60,7 @@
     section.active {
       display: block;
     }
+
     .merch-items {
       display: flex;
       justify-content: center;
@@ -73,21 +79,23 @@
       max-width: 100%;
       border-radius: 8px;
     }
-    .item-card h3 {
-      margin: 10px 0 5px;
+    .item-card input[type="file"] {
+      margin-top: 10px;
+    }
+    .item-card button {
+      margin-top: 10px;
+      background-color: transparent;
+      border: 1px solid var(--main-color);
+      color: var(--main-color);
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
     }
     .coming-soon {
       color: #aaa;
       font-style: italic;
     }
-    .green-glow {
-      color: #00ff88;
-      text-shadow: 0 0 5px #00ff88;
-    }
-    .red-glow {
-      color: #ff4444;
-      text-shadow: 0 0 5px #ff4444;
-    }
+
     footer {
       padding: 20px;
       text-align: center;
@@ -96,67 +104,70 @@
       color: #888;
       border-top: 1px solid #222;
     }
+
+    ul#wishlist-list,
+    ul#cart-list {
+      text-align: left;
+      margin: 20px auto;
+      max-width: 600px;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <span class="glow">PandyVR × D1SPA4VR</span> Merch
+  <header class="name-glow">
+    <span class="pandy">PandyVR</span> × <span class="d1spa">D1SPA4VR</span> Merch
   </header>
 
   <nav>
     <button class="tab-button active" data-tab="home">Home</button>
     <button class="tab-button" data-tab="pandy">PandyVR</button>
     <button class="tab-button" data-tab="d1spa4">D1SPA4VR</button>
-    <button class="tab-button" data-tab="about">About</button>
-    <button class="tab-button" data-tab="contact">Contact</button>
+    <button class="tab-button" data-tab="wishlist">Wishlist</button>
+    <button class="tab-button" data-tab="cart">Cart</button>
   </nav>
 
   <section id="home" class="active">
-    <h2 class="glow">Welcome to Our Merch Store</h2>
-    <p>We’re <span class="green-glow">PandyVR</span> and <span class="red-glow">D1SPA4VR</span>, two Gorilla Tag modders & creators bringing you exclusive merch!</p>
-    <p>Check out our upcoming stickers, cups, and 3D printed figures — all custom made for our fans.</p>
+    <h2>Welcome to Our Merch Store</h2>
+    <p>We're <span class="pandy">PandyVR</span> and <span class="d1spa">D1SPA4VR</span>, Gorilla Tag modders bringing you exclusive custom merch.</p>
+    <p>Explore stickers, 3D models, cups and more. All <em>coming soon!</em></p>
   </section>
 
   <section id="pandy">
-    <h2 class="green-glow">PandyVR Merch</h2>
+    <h2 class="pandy">PandyVR Merch</h2>
     <div class="merch-items">
       <div class="item-card">
-        <img src="https://via.placeholder.com/250x150?text=Sticker" alt="Sticker" />
+        <img src="https://via.placeholder.com/250x150?text=Sticker" id="img1" />
+        <input type="file" accept="image/*" onchange="loadImage(event, 'img1')" />
         <h3>Sticker Pack</h3>
         <p class="coming-soon">Coming Soon</p>
-      </div>
-      <div class="item-card">
-        <img src="https://via.placeholder.com/250x150?text=Model" alt="3D Model" />
-        <h3>3D Model</h3>
-        <p class="coming-soon">Coming Soon</p>
+        <button onclick="addToWishlist('PandyVR Sticker Pack')">❤️ Wishlist</button>
+        <button onclick="addToCart('PandyVR Sticker Pack')">🛒 Add to Cart</button>
       </div>
     </div>
   </section>
 
   <section id="d1spa4">
-    <h2 class="red-glow">D1SPA4VR Merch</h2>
+    <h2 class="d1spa">D1SPA4VR Merch</h2>
     <div class="merch-items">
       <div class="item-card">
-        <img src="https://via.placeholder.com/250x150?text=Cup" alt="Cup" />
+        <img src="https://via.placeholder.com/250x150?text=Mug" id="img2" />
+        <input type="file" accept="image/*" onchange="loadImage(event, 'img2')" />
         <h3>Mug</h3>
         <p class="coming-soon">Coming Soon</p>
-      </div>
-      <div class="item-card">
-        <img src="https://via.placeholder.com/250x150?text=Model" alt="3D Model" />
-        <h3>3D Model</h3>
-        <p class="coming-soon">Coming Soon</p>
+        <button onclick="addToWishlist('D1SPA4VR Mug')">❤️ Wishlist</button>
+        <button onclick="addToCart('D1SPA4VR Mug')">🛒 Add to Cart</button>
       </div>
     </div>
   </section>
 
-  <section id="about">
-    <h2 class="glow">About Us</h2>
-    <p>We're VR creators focused on custom Gorilla Tag content and community merch. Everything is made with care!</p>
+  <section id="wishlist">
+    <h2>Wishlist</h2>
+    <ul id="wishlist-list"></ul>
   </section>
 
-  <section id="contact">
-    <h2 class="glow">Contact</h2>
-    <p>Have a question or want to collaborate? DM us or join our Discord!</p>
+  <section id="cart">
+    <h2>Cart</h2>
+    <ul id="cart-list"></ul>
   </section>
 
   <footer>
@@ -166,6 +177,7 @@
   <script>
     const tabs = document.querySelectorAll('.tab-button');
     const sections = document.querySelectorAll('section');
+    const root = document.documentElement;
 
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
@@ -173,8 +185,36 @@
         sections.forEach(s => s.classList.remove('active'));
         tab.classList.add('active');
         document.getElementById(tab.dataset.tab).classList.add('active');
+
+        // Theme switch
+        if (tab.dataset.tab === 'pandy') {
+          root.style.setProperty('--main-color', '#00ff88');
+        } else if (tab.dataset.tab === 'd1spa4') {
+          root.style.setProperty('--main-color', '#ff4444');
+        } else {
+          root.style.setProperty('--main-color', '#00ff88');
+        }
       });
     });
+
+    function addToWishlist(item) {
+      const list = document.getElementById('wishlist-list');
+      const li = document.createElement('li');
+      li.textContent = item;
+      list.appendChild(li);
+    }
+
+    function addToCart(item) {
+      const list = document.getElementById('cart-list');
+      const li = document.createElement('li');
+      li.textContent = item;
+      list.appendChild(li);
+    }
+
+    function loadImage(event, id) {
+      const img = document.getElementById(id);
+      img.src = URL.createObjectURL(event.target.files[0]);
+    }
   </script>
 </body>
 </html>
