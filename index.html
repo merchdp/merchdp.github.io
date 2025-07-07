@@ -211,7 +211,7 @@
 
   <section id="home" class="active">
     <h2>Welcome to Our Merch Store</h2>
-    <p>We're <span class="pandy">PandyVR</span> and <span class="d1spa">D1SPA4VR</span>, Gorilla Tag modders bringing you exclusive custom merch.</p>
+    <p>We're <span class="pandy">PandyVR</span> and <span class="d1spa">D1SPA4VR</span>, Gorilla Tag Content Creators bringing you exclusive custom merch.</p>
     <p>Explore stickers, 3D models, cups and more. All <em>coming soon!</em></p>
   </section>
 
@@ -219,7 +219,7 @@
     <h2 class="pandy">PandyVR Merch</h2>
     <div class="merch-items">
       <div class="item-card">
-        <img src="https://i.imgur.com/cGUDhdQ.jpeg" alt="PandyVR Sticker Pack" />
+        <img src="https://i.imgur.com/SKCKOPE.jpeg" alt="PandyVR Sticker Pack" />
         <h3>Sticker Pack</h3>
         <p class="coming-soon">Coming Soon</p>
         <button onclick="addToWishlist('PandyVR Sticker Pack')">❤️ Wishlist</button>
@@ -252,9 +252,9 @@
 
   <!-- Chatbot -->
   <div id="chat-bot">
-    <div id="chat-header">Ask A Team Memeber?</div>
+    <div id="chat-header">Ask a Team Member</div>
     <div id="chat-body"><div class="message bot">Hey! Need help with merch?</div></div>
-    <input type="text" id="chat-input" placeholder="Ask a question..." />
+    <input type="text" id="chat-input" placeholder="Ask a question..." autocomplete="off" />
   </div>
 
   <script>
@@ -348,9 +348,15 @@
             body: JSON.stringify({ message: userMsg })
           });
           const data = await res.json();
-          botDiv.textContent = data.reply || "Sorry, no response.";
+          if (data.reply) {
+            botDiv.textContent = data.reply;
+          } else if (data.error) {
+            botDiv.textContent = "⚠️ " + data.error;
+          } else {
+            botDiv.textContent = "Sorry, no response.";
+          }
         } catch (err) {
-          botDiv.textContent = "⚠️ Error contacting chatbot.";
+          botDiv.textContent = "⚠️ Network error.";
         }
 
         chatBody.scrollTop = chatBody.scrollHeight;
