@@ -315,7 +315,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
 <script>
-  // Your Firebase config:
   const firebaseConfig = {
     apiKey: "AIzaSyCKZnGtKjhT0DpKy2JZBGragljB2DEhinY",
     authDomain: "pandyvrmerch.firebaseapp.com",
@@ -537,7 +536,6 @@
 
   // Admin panel buttons
   savePrdBtn.onclick = () => {
-    const id = prdIdInput.value || db.ref("products").push().key;
     const title = prdTitleInput.value.trim();
     const img = prdImgInput.value.trim();
     const status = prdStatusSelect.value;
@@ -547,12 +545,20 @@
       return;
     }
 
+    let id = prdIdInput.value;
+    if (!id) {
+      id = db.ref("products").push().key;
+    }
+
     const obj = { title, image: img, status };
-    db.ref(`products/${id}`).set(obj).then(() => {
-      showNoti("Product saved!");
-      clearAdminForm();
-      loadProducts();
-    });
+    db.ref(`products/${id}`)
+      .set(obj)
+      .then(() => {
+        showNoti("Product saved!");
+        clearAdminForm();
+        loadProducts();
+      })
+      .catch(err => alert("Failed to save product: " + err.message));
   };
 
   cancelPrdBtn.onclick = () => clearAdminForm();
@@ -570,10 +576,12 @@
 
   window.deleteProduct = (id) => {
     if (confirm("Delete this product?")) {
-      db.ref(`products/${id}`).remove().then(() => {
-        showNoti("Product deleted!");
-        loadProducts();
-      });
+      db.ref(`products/${id}`).remove()
+        .then(() => {
+          showNoti("Product deleted!");
+          loadProducts();
+        })
+        .catch(err => alert("Failed to delete product: " + err.message));
     }
   };
 
@@ -584,7 +592,7 @@
     prdStatusSelect.value = "in_stock";
   }
 
-  // Load products on page load
+  // Initial load
   loadProducts();
 </script>
 
