@@ -1,600 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>PandyVR Merch</title>
-<style>
-  :root {
-    --main-green: #00ff88;
-    --main-black: #000;
-    --main-dark: #111;
-    --main-light: #eee;
-  }
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: var(--main-black);
-    color: var(--main-light);
-  }
-  header {
-    background: var(--main-dark);
-    padding: 20px;
-    text-align: center;
-    font-size: 2rem;
-    color: var(--main-green);
-    text-shadow: 0 0 8px var(--main-green);
-  }
-  nav {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    background: var(--main-dark);
-    padding: 10px 0;
-  }
-  nav button {
-    background: none;
-    border: none;
-    color: var(--main-green);
-    font-size: 1rem;
-    cursor: pointer;
-    padding: 8px 16px;
-  }
-  nav button.active {
-    text-decoration: underline;
-  }
-  section {
-    display: none;
-    padding: 20px;
-    max-width: 900px;
-    margin: auto;
-  }
-  section.active {
-    display: block;
-  }
-  .merch-items {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-  }
-  .item-card {
-    background: var(--main-dark);
-    border-radius: 12px;
-    padding: 16px;
-    width: 250px;
-    box-shadow: 0 0 10px var(--main-green);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .item-card img {
-    width: 100%;
-    border-radius: 8px;
-    object-fit: contain;
-  }
-  .item-card h3 {
-    margin: 12px 0 8px;
-  }
-  .item-card button {
-    background: none;
-    border: 2px solid var(--main-green);
-    color: var(--main-green);
-    border-radius: 6px;
-    cursor: pointer;
-    padding: 6px 12px;
-    font-weight: bold;
-  }
-  .item-card button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-  .status-label {
-    font-style: italic;
-    color: #aaa;
-    margin-top: 6px;
-  }
-  #wishlist-list {
-    list-style: none;
-    padding: 0;
-    max-width: 600px;
-    margin: auto;
-  }
-  #wishlist-list li {
-    background: var(--main-dark);
-    padding: 10px 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  #wishlist-list li button {
-    background: var(--main-green);
-    border: none;
-    color: #000;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 4px;
-    padding: 2px 6px;
-  }
-  #noti {
-    position: fixed;
-    top: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--main-green);
-    color: #000;
-    padding: 12px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    box-shadow: 0 0 10px var(--main-green);
-    transition: top 0.4s ease, opacity 0.4s ease;
-    opacity: 0;
-    z-index: 9999;
-  }
-  #noti.show {
-    top: 20px;
-    opacity: 1;
-  }
-
-  /* Admin button and panel */
-  #admin-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: var(--main-green);
-    color: #000;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    z-index: 10000;
-  }
-  #admin-panel {
-    display: none;
-    position: fixed;
-    bottom: 70px;
-    right: 20px;
-    background: var(--main-dark);
-    padding: 20px;
-    border-radius: 12px;
-    width: 320px;
-    max-height: 450px;
-    overflow-y: auto;
-    box-shadow: 0 0 15px var(--main-green);
-    z-index: 10000;
-  }
-  #admin-panel h3 {
-    margin-top: 0;
-    margin-bottom: 12px;
-    color: var(--main-green);
-  }
-  #admin-panel input,
-  #admin-panel select {
-    width: 100%;
-    margin: 6px 0 12px;
-    padding: 8px;
-    border-radius: 6px;
-    border: none;
-    font-size: 1rem;
-  }
-  #admin-panel button {
-    background: var(--main-green);
-    border: none;
-    color: #000;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-right: 8px;
-  }
-  .prd-item {
-    background: #222;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .prd-item button {
-    padding: 4px 8px;
-  }
-
-  /* Auth panel */
-  #auth-panel {
-    max-width: 320px;
-    margin: 10px auto;
-    background: var(--main-dark);
-    padding: 12px 20px;
-    border-radius: 12px;
-    box-shadow: 0 0 15px var(--main-green);
-    text-align: center;
-  }
-  #auth-panel input {
-    width: 90%;
-    margin: 8px 0;
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: none;
-  }
-  #auth-panel button {
-    background: var(--main-green);
-    border: none;
-    color: #000;
-    padding: 10px 18px;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    margin: 5px 4px;
-  }
-  #user-info {
-    margin-top: 12px;
-  }
-  #user-info span {
-    font-weight: bold;
-  }
-  #user-info button {
-    background: #f44336;
-    color: #fff;
-    border-radius: 6px;
-    padding: 6px 10px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PandyVR Merch</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <style>
+    :root {
+      --main-green: #00ff88;
+      --main-black: #000;
+      --main-dark: #111;
+      --main-light: #eee;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--main-black);
+      color: var(--main-light);
+      padding: 0 10px;
+    }
+    header {
+      background: var(--main-dark);
+      padding: 20px;
+      text-align: center;
+      font-size: 2rem;
+      color: var(--main-green);
+      text-shadow: 0 0 8px var(--main-green);
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      background: var(--main-dark);
+      padding: 10px 0;
+    }
+    nav button {
+      background: none;
+      border: none;
+      color: var(--main-green);
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 8px 16px;
+    }
+    nav button.active {
+      text-decoration: underline;
+    }
+    section {
+      display: none;
+      padding: 20px 0;
+    }
+    section.active {
+      display: block;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+    .wishlist-btn, .remove-btn {
+      margin: 5px;
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      background-color: var(--main-green);
+      color: black;
+    }
+    .noti {
+      position: fixed;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #00ff88;
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px #00ff88;
+      transition: top 0.5s ease;
+      z-index: 1000;
+    }
+    .noti.show {
+      top: 20px;
+    }
+    .admin-panel {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: var(--main-dark);
+      padding: 10px;
+      border: 1px solid var(--main-green);
+    }
+  </style>
 </head>
 <body>
+  <header>PandyVR Merch</header>
+  <nav>
+    <button class="tab-button active" data-tab="home">Home</button>
+    <button class="tab-button" data-tab="shop">Shop</button>
+    <button class="tab-button" data-tab="wishlist">Wishlist</button>
+  </nav>
 
-<header>PandyVR Merch</header>
+  <div class="noti" id="noti">Notification</div>
 
-<div id="noti">✅ Updated!</div>
+  <section id="home" class="active">
+    <div class="container">
+      <h2>Welcome!</h2>
+      <p>Explore exclusive Gorilla Tag merch by <strong>PandyVR</strong>.</p>
+    </div>
+  </section>
 
-<div id="auth-panel">
-  <input type="email" id="email" placeholder="Email" />
-  <input type="password" id="password" placeholder="Password" />
-  <br />
-  <button id="login-btn">Login</button>
-  <button id="signup-btn">Sign Up</button>
+  <section id="shop">
+    <div class="container">
+      <h2>Shop</h2>
+      <div id="merch-container"></div>
+    </div>
+  </section>
 
-  <div id="user-info" style="display:none;">
-    Logged in as <span id="user-email"></span>
-    <button id="logout-btn">Logout</button>
+  <section id="wishlist">
+    <div class="container">
+      <h2>Your Wishlist</h2>
+      <ul id="wishlist-list"></ul>
+    </div>
+  </section>
+
+  <div class="admin-panel">
+    <input type="password" id="admin-code" placeholder="Enter Admin Code" />
+    <button onclick="checkAdminCode()">Login</button>
+    <div id="admin-form" style="display:none;">
+      <input type="text" id="prd-title" placeholder="Product Title" />
+      <input type="text" id="prd-img" placeholder="Image URL" />
+      <select id="prd-status">
+        <option value="in_stock">In Stock</option>
+        <option value="coming_soon">Coming Soon</option>
+        <option value="out_of_stock">Out of Stock</option>
+      </select>
+      <button onclick="saveProduct()">Save</button>
+    </div>
   </div>
-</div>
 
-<nav>
-  <button class="tab-button active" data-tab="home">Home</button>
-  <button class="tab-button" data-tab="shop">Shop</button>
-  <button class="tab-button" data-tab="wishlist">Wishlist</button>
-</nav>
+  <footer>
+    <div class="container">
+      &copy; 2025 PandyVR. All rights reserved.
+    </div>
+  </footer>
 
-<section id="home" class="active">
-  <h2>Welcome!</h2>
-  <p>Explore exclusive Gorilla Tag merch by <strong>PandyVR</strong>.</p>
-  <p>Log in to save your wishlist.</p>
-</section>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCKZnGtKjhT0DpKy2JZBGragljB2DEhinY",
+      authDomain: "pandyvrmerch.firebaseapp.com",
+      projectId: "pandyvrmerch",
+      storageBucket: "pandyvrmerch.firebasestorage.app",
+      messagingSenderId: "180104474114",
+      appId: "1:180104474114:web:9c892925def03df913811b",
+      measurementId: "G-4TKZ0F0X96"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    let userId = null;
 
-<section id="shop">
-  <h2>Shop</h2>
-  <div class="merch-items" id="merch-container"></div>
-</section>
-
-<section id="wishlist">
-  <h2>Your Wishlist</h2>
-  <ul id="wishlist-list"></ul>
-</section>
-
-<footer>&copy; 2025 PandyVR. All rights reserved.</footer>
-
-<button id="admin-btn">Admin</button>
-<div id="admin-panel">
-  <h3>Admin Panel</h3>
-  <div id="prd-list"></div>
-  <hr />
-  <h4>Add / Edit Product</h4>
-  <input type="hidden" id="prd-id" />
-  <input type="text" id="prd-title" placeholder="Title" />
-  <input type="text" id="prd-img" placeholder="Image URL" />
-  <select id="prd-status">
-    <option value="in_stock">In Stock</option>
-    <option value="out_of_stock">Out of Stock</option>
-    <option value="coming_soon">Coming Soon</option>
-  </select>
-  <button id="save-prd-btn">Save</button>
-  <button id="cancel-prd-btn">Cancel</button>
-</div>
-
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyCKZnGtKjhT0DpKy2JZBGragljB2DEhinY",
-    authDomain: "pandyvrmerch.firebaseapp.com",
-    projectId: "pandyvrmerch",
-    storageBucket: "pandyvrmerch.firebasestorage.app",
-    messagingSenderId: "180104474114",
-    appId: "1:180104474114:web:9c892925def03df913811b",
-    measurementId: "G-4TKZ0F0X96"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-
-  const auth = firebase.auth();
-  const db = firebase.database();
-
-  // UI Elements
-  const emailInput = document.getElementById("email");
-  const passwordInput = document.getElementById("password");
-  const loginBtn = document.getElementById("login-btn");
-  const signupBtn = document.getElementById("signup-btn");
-  const logoutBtn = document.getElementById("logout-btn");
-  const userInfo = document.getElementById("user-info");
-  const userEmailSpan = document.getElementById("user-email");
-
-  const tabButtons = document.querySelectorAll(".tab-button");
-  const sections = document.querySelectorAll("section");
-
-  const merchContainer = document.getElementById("merch-container");
-  const wishlistList = document.getElementById("wishlist-list");
-  const noti = document.getElementById("noti");
-
-  const adminBtn = document.getElementById("admin-btn");
-  const adminPanel = document.getElementById("admin-panel");
-  const prdList = document.getElementById("prd-list");
-  const prdIdInput = document.getElementById("prd-id");
-  const prdTitleInput = document.getElementById("prd-title");
-  const prdImgInput = document.getElementById("prd-img");
-  const prdStatusSelect = document.getElementById("prd-status");
-  const savePrdBtn = document.getElementById("save-prd-btn");
-  const cancelPrdBtn = document.getElementById("cancel-prd-btn");
-
-  // Show notification
-  function showNoti(msg) {
-    noti.textContent = msg;
-    noti.classList.add("show");
-    setTimeout(() => noti.classList.remove("show"), 2000);
-  }
-
-  // Auth events
-  loginBtn.onclick = () => {
-    auth.signInWithEmailAndPassword(emailInput.value, passwordInput.value).catch(e => alert(e.message));
-  };
-
-  signupBtn.onclick = () => {
-    auth.createUserWithEmailAndPassword(emailInput.value, passwordInput.value).catch(e => alert(e.message));
-  };
-
-  logoutBtn.onclick = () => {
-    auth.signOut();
-  };
-
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      userInfo.style.display = "block";
-      userEmailSpan.textContent = user.email;
-      emailInput.style.display = "none";
-      passwordInput.style.display = "none";
-      loginBtn.style.display = "none";
-      signupBtn.style.display = "none";
+    firebase.auth().signInAnonymously().then(user => {
+      userId = user.user.uid;
+      loadProducts();
       loadWishlist();
-    } else {
-      userInfo.style.display = "none";
-      userEmailSpan.textContent = "";
-      emailInput.style.display = "inline-block";
-      passwordInput.style.display = "inline-block";
-      loginBtn.style.display = "inline-block";
-      signupBtn.style.display = "inline-block";
-      wishlistList.innerHTML = "";
-    }
-  });
-
-  // Tabs
-  tabButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      tabButtons.forEach(b => b.classList.remove("active"));
-      sections.forEach(s => s.classList.remove("active"));
-      btn.classList.add("active");
-      const tabName = btn.dataset.tab;
-      document.getElementById(tabName).classList.add("active");
     });
-  });
 
-  // Load products from Firebase DB and display in shop & admin panel
-  function loadProducts() {
-    db.ref("products").once("value").then(snapshot => {
-      const products = snapshot.val() || {};
-      merchContainer.innerHTML = "";
-      prdList.innerHTML = "";
-      for (const [id, p] of Object.entries(products)) {
-        // Shop display card
-        const card = document.createElement("div");
-        card.className = "item-card";
-
-        // Image with fallback alt text
-        const img = document.createElement("img");
-        img.src = p.image;
-        img.alt = p.title;
-        card.appendChild(img);
-
-        // Title
-        const title = document.createElement("h3");
-        title.textContent = p.title;
-        card.appendChild(title);
-
-        // Status label
-        const statusLabel = document.createElement("div");
-        statusLabel.className = "status-label";
-        statusLabel.textContent = p.status.replace(/_/g, " ");
-        card.appendChild(statusLabel);
-
-        // Wishlist button
-        const wishBtn = document.createElement("button");
-        wishBtn.textContent = "❤️ Wishlist";
-        // Disable if not in stock
-        if (p.status !== "in_stock") {
-          wishBtn.disabled = true;
-          wishBtn.title = "Not available to add";
-        } else {
-          wishBtn.onclick = () => addToWishlist(id);
-        }
-        card.appendChild(wishBtn);
-
-        merchContainer.appendChild(card);
-
-        // Admin panel product list item
-        const adminItem = document.createElement("div");
-        adminItem.className = "prd-item";
-        adminItem.innerHTML = `
-          <span>${p.title}</span>
-          <div>
-            <button onclick="editProduct('${id}')">Edit</button>
-            <button onclick="deleteProduct('${id}')">Delete</button>
-          </div>
-        `;
-        prdList.appendChild(adminItem);
-      }
+    const tabs = document.querySelectorAll(".tab-button");
+    const sections = document.querySelectorAll("section");
+    tabs.forEach(btn => {
+      btn.onclick = () => {
+        tabs.forEach(b => b.classList.remove("active"));
+        sections.forEach(s => s.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      };
     });
-  }
 
-  // Wishlist functionality
-  function addToWishlist(productId) {
-    const user = auth.currentUser;
-    if (!user) {
-      alert("Please log in first.");
-      return;
+    function showNoti(msg) {
+      const noti = document.getElementById("noti");
+      noti.textContent = msg;
+      noti.classList.add("show");
+      setTimeout(() => noti.classList.remove("show"), 3000);
     }
-    const wishlistRef = db.ref(`wishlists/${user.uid}`);
-    wishlistRef.once("value").then(snap => {
-      const arr = snap.val() || [];
-      if (!arr.includes(productId)) {
-        arr.push(productId);
-        wishlistRef.set(arr).then(() => {
-          showNoti("✅ Added to wishlist!");
-          loadWishlist();
-        });
-      } else {
-        alert("Item already in wishlist.");
-      }
-    });
-  }
 
-  function loadWishlist() {
-    const user = auth.currentUser;
-    if (!user) {
-      wishlistList.innerHTML = "";
-      return;
-    }
-    const wishlistRef = db.ref(`wishlists/${user.uid}`);
-    wishlistRef.once("value").then(snap => {
-      const arr = snap.val() || [];
-      wishlistList.innerHTML = "";
-      if (arr.length === 0) {
-        wishlistList.innerHTML = "<p>Your wishlist is empty.</p>";
-        return;
-      }
-      arr.forEach(pid => {
-        db.ref(`products/${pid}`).once("value").then(psnap => {
-          const p = psnap.val();
-          if (!p) return;
-          const li = document.createElement("li");
-          li.textContent = p.title;
-
-          const rmBtn = document.createElement("button");
-          rmBtn.textContent = "❌";
-          rmBtn.onclick = () => {
-            const newArr = arr.filter(id => id !== pid);
-            wishlistRef.set(newArr).then(() => loadWishlist());
-          };
-          li.appendChild(rmBtn);
-          wishlistList.appendChild(li);
+    function loadProducts() {
+      const container = document.getElementById("merch-container");
+      container.innerHTML = "";
+      db.ref("products").once("value", snap => {
+        const data = snap.val();
+        if (!data) return;
+        Object.entries(data).forEach(([id, prod]) => {
+          const div = document.createElement("div");
+          div.innerHTML = \`
+            <h3>\${prod.title}</h3>
+            <img src="\${prod.image}" alt="\${prod.title}" width="150" />
+            <p>Status: \${prod.status}</p>
+            <button class="wishlist-btn" onclick="addToWishlist('\${id}')">♡ Wishlist</button>
+          \`;
+          container.appendChild(div);
         });
       });
-    });
-  }
-
-  // Admin code & panel logic
-  const ADMIN_CODE = "12907654";
-
-  adminBtn.onclick = () => {
-    const code = prompt("Enter admin code:");
-    if (code === ADMIN_CODE) {
-      adminPanel.style.display = "block";
-      adminBtn.style.display = "none";
-      loadProducts();
-    } else {
-      alert("Incorrect admin code.");
-    }
-  };
-
-  // Admin panel buttons
-  savePrdBtn.onclick = () => {
-    const title = prdTitleInput.value.trim();
-    const img = prdImgInput.value.trim();
-    const status = prdStatusSelect.value;
-
-    if (!title || !img) {
-      alert("Please enter both title and image URL.");
-      return;
     }
 
-    let id = prdIdInput.value;
-    if (!id) {
-      id = db.ref("products").push().key;
+    function addToWishlist(productId) {
+      if (!userId) return;
+      db.ref("wishlists/" + userId + "/" + productId).set(true);
+      showNoti("Added to wishlist!");
+      loadWishlist();
     }
 
-    const obj = { title, image: img, status };
-    db.ref(`products/${id}`)
-      .set(obj)
-      .then(() => {
-        showNoti("Product saved!");
-        clearAdminForm();
-        loadProducts();
-      })
-      .catch(err => alert("Failed to save product: " + err.message));
-  };
+    function loadWishlist() {
+      const list = document.getElementById("wishlist-list");
+      list.innerHTML = "";
+      db.ref("wishlists/" + userId).once("value", snap => {
+        const ids = snap.val();
+        if (!ids) return;
+        Object.keys(ids).forEach(id => {
+          db.ref("products/" + id).once("value", prodSnap => {
+            const prod = prodSnap.val();
+            if (!prod) return;
+            const li = document.createElement("li");
+            li.textContent = prod.title + " ";
+            const btn = document.createElement("button");
+            btn.textContent = "❌";
+            btn.className = "remove-btn";
+            btn.onclick = () => {
+              db.ref("wishlists/" + userId + "/" + id).remove();
+              loadWishlist();
+            };
+            li.appendChild(btn);
+            list.appendChild(li);
+          });
+        });
+      });
+    }
 
-  cancelPrdBtn.onclick = () => clearAdminForm();
+    function checkAdminCode() {
+      const code = document.getElementById("admin-code").value;
+      if (code === "12907654") {
+        document.getElementById("admin-form").style.display = "block";
+        showNoti("Admin access granted.");
+      } else {
+        alert("Wrong code.");
+      }
+    }
 
-  window.editProduct = (id) => {
-    db.ref(`products/${id}`).once("value").then(snap => {
-      const p = snap.val();
-      if (!p) return;
-      prdIdInput.value = id;
-      prdTitleInput.value = p.title;
-      prdImgInput.value = p.image;
-      prdStatusSelect.value = p.status;
-    });
-  };
-
-  window.deleteProduct = (id) => {
-    if (confirm("Delete this product?")) {
-      db.ref(`products/${id}`).remove()
-        .then(() => {
-          showNoti("Product deleted!");
+    function saveProduct() {
+      const title = document.getElementById("prd-title").value;
+      const image = document.getElementById("prd-img").value;
+      const status = document.getElementById("prd-status").value;
+      const newRef = db.ref("products").push();
+      newRef.set({ title, image, status }, err => {
+        if (err) {
+          alert("Failed to save product.");
+        } else {
+          showNoti("Product saved.");
           loadProducts();
-        })
-        .catch(err => alert("Failed to delete product: " + err.message));
+        }
+      });
     }
-  };
-
-  function clearAdminForm() {
-    prdIdInput.value = "";
-    prdTitleInput.value = "";
-    prdImgInput.value = "";
-    prdStatusSelect.value = "in_stock";
-  }
-
-  // Initial load
-  loadProducts();
-</script>
-
+  </script>
 </body>
 </html>
