@@ -9,9 +9,9 @@
       --main-color: #00ff88;
     }
     body {
-      background-color: #000;
-      font-family: Arial, sans-serif;
+      background: #000;
       color: white;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
     }
@@ -20,18 +20,15 @@
       padding: 20px;
       text-align: center;
       font-size: 28px;
-      font-weight: bold;
-      color: #00ff88;
-      text-shadow: 0 0 8px #00ff88;
+      color: var(--main-color);
+      text-shadow: 0 0 8px var(--main-color);
     }
     nav {
       display: flex;
       justify-content: center;
-      background-color: #111;
-      padding: 10px 0;
       gap: 20px;
-      border-top: 1px solid #222;
-      border-bottom: 1px solid #222;
+      background: #111;
+      padding: 10px;
     }
     nav button {
       background: none;
@@ -40,23 +37,19 @@
       font-weight: bold;
       font-size: 16px;
       cursor: pointer;
-      padding: 10px 15px;
-      border-radius: 5px;
     }
     nav button:hover,
     nav button.active {
-      background-color: var(--main-color);
-      color: black;
+      text-decoration: underline;
     }
     section {
       display: none;
-      padding: 40px 20px;
+      padding: 30px;
       text-align: center;
     }
     section.active {
       display: block;
     }
-
     .merch-items {
       display: flex;
       justify-content: center;
@@ -66,103 +59,113 @@
     }
     .item-card {
       background: #111;
-      border-radius: 10px;
       padding: 20px;
+      border-radius: 10px;
       width: 250px;
-      box-shadow: 0 0 10px rgba(0,255,128,0.2);
+      box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
     }
     .item-card img {
       max-width: 100%;
-      border-radius: 8px;
+      border-radius: 10px;
     }
     .item-card button {
-      margin-top: 10px;
-      background-color: transparent;
+      background: none;
       border: 1px solid var(--main-color);
       color: var(--main-color);
-      padding: 5px 10px;
+      padding: 6px 12px;
+      margin-top: 10px;
       cursor: pointer;
-      border-radius: 5px;
+      border-radius: 6px;
     }
     .item-card button:disabled {
       opacity: 0.5;
       cursor: not-allowed;
     }
-    .coming-soon {
-      color: #aaa;
-      font-style: italic;
-    }
-
-    footer {
-      padding: 20px;
-      text-align: center;
-      background: #111;
-      font-size: 14px;
-      color: #888;
-      border-top: 1px solid #222;
-    }
-
-    ul#wishlist-list {
-      text-align: left;
-      margin: 20px auto;
+    #wishlist-list {
+      list-style: none;
+      padding: 0;
       max-width: 600px;
+      margin: auto;
     }
-
-    ul li button {
-      background: none;
-      border: none;
-      color: red;
-      margin-left: 10px;
-      cursor: pointer;
-      font-weight: bold;
+    #wishlist-list li {
+      margin: 8px 0;
     }
-
     #noti {
       position: fixed;
       top: -60px;
       left: 50%;
       transform: translateX(-50%);
-      background-color: var(--main-color);
+      background: var(--main-color);
       color: black;
       padding: 12px 20px;
       border-radius: 5px;
       font-weight: bold;
-      z-index: 9999;
       box-shadow: 0 0 10px var(--main-color);
-      transition: top 0.4s ease-in-out, opacity 0.4s;
+      transition: top 0.4s ease, opacity 0.4s;
       opacity: 0;
+      z-index: 999;
     }
     #noti.show {
       top: 20px;
       opacity: 1;
     }
+    #auth-panel {
+      margin: 20px auto;
+      text-align: center;
+    }
+    #auth-panel input {
+      margin: 5px;
+      padding: 8px;
+      width: 200px;
+    }
+    footer {
+      padding: 20px;
+      text-align: center;
+      background: #111;
+      color: #888;
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
+
   <header>PandyVR Merch</header>
 
   <div id="noti">✅ Added to wishlist!</div>
 
+  <div id="auth-panel">
+    <div id="auth-forms">
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="password" placeholder="Password">
+      <button onclick="login()">Login</button>
+      <button onclick="signup()">Sign Up</button>
+    </div>
+    <div id="user-panel" style="display:none;">
+      Logged in as <span id="user-email"></span>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+
   <nav>
     <button class="tab-button active" data-tab="home">Home</button>
-    <button class="tab-button" data-tab="pandy">Shop</button>
+    <button class="tab-button" data-tab="shop">Shop</button>
     <button class="tab-button" data-tab="wishlist">Wishlist</button>
   </nav>
 
   <section id="home" class="active">
-    <h2>Welcome to PandyVR Merch</h2>
-    <p>We’re working on exclusive Gorilla Tag merch like stickers, 3D prints, cups and more!</p>
-    <p><em>Everything is currently coming soon. Stay tuned!</em></p>
+    <h2>Welcome!</h2>
+    <p>Here you’ll find exclusive Gorilla Tag merch by <strong>PandyVR</strong>.</p>
+    <p>Login to start building your wishlist!</p>
   </section>
 
-  <section id="pandy">
-    <h2>PandyVR Products</h2>
+  <section id="shop">
+    <h2>Merch</h2>
     <div class="merch-items">
       <div class="item-card">
-        <img src="https://i.imgur.com/h6GjQ9u.png" alt="PandyVR Sticker Pack" />
+        <img src="https://i.imgur.com/h6GjQ9u.png" alt="Sticker Pack">
         <h3>Sticker Pack</h3>
-        <p class="coming-soon">Coming Soon</p>
-        <button onclick="addToWishlist('PandyVR Sticker Pack')">❤️ Wishlist</button>
+        <p><em>Coming soon</em></p>
+        <button onclick="addToWishlist('Sticker Pack')">❤️ Wishlist</button>
         <button disabled>🛒 Add to Cart</button>
       </div>
     </div>
@@ -174,63 +177,119 @@
   </section>
 
   <footer>
-    © 2025 PandyVR Merch. All rights reserved.
+    &copy; 2025 PandyVR. All rights reserved.
   </footer>
 
+  <!-- Firebase App (Core SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
   <script>
-    window.onload = () => {
-      const tabs = document.querySelectorAll('.tab-button');
-      const sections = document.querySelectorAll('section');
+    const firebaseConfig = {
+      apiKey: "AIzaSyCKZnGtKjhT0DpKy2JZBGragljB2DEhinY",
+      authDomain: "pandyvrmerch.firebaseapp.com",
+      projectId: "pandyvrmerch",
+      storageBucket: "pandyvrmerch.firebasestorage.app",
+      messagingSenderId: "180104474114",
+      appId: "1:180104474114:web:9c892925def03df913811b",
+      measurementId: "G-4TKZ0F0X96"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
 
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          tabs.forEach(t => t.classList.remove('active'));
-          sections.forEach(s => s.classList.remove('active'));
-          tab.classList.add('active');
-          document.getElementById(tab.dataset.tab).classList.add('active');
-        });
-      });
+    let currentUser = null;
 
-      const wishlistKey = "pandyvr_wishlist";
-      let wishlist = JSON.parse(localStorage.getItem(wishlistKey)) || [];
+    function showNoti(message) {
+      const noti = document.getElementById("noti");
+      noti.textContent = message;
+      noti.classList.add("show");
+      setTimeout(() => noti.classList.remove("show"), 2000);
+    }
 
-      function updateList(id, listData, key) {
-        const listElement = document.getElementById(id);
-        listElement.innerHTML = "";
-        listData.forEach((item, index) => {
-          const li = document.createElement('li');
-          li.innerHTML = `${item} <button onclick="removeItem('${id}', ${index}, '${key}')">❌</button>`;
-          listElement.appendChild(li);
-        });
-        localStorage.setItem(key, JSON.stringify(listData));
+    function updateUI(user) {
+      if (user) {
+        document.getElementById("auth-forms").style.display = "none";
+        document.getElementById("user-panel").style.display = "block";
+        document.getElementById("user-email").textContent = user.email;
+        currentUser = user;
+        loadWishlist();
+      } else {
+        document.getElementById("auth-forms").style.display = "block";
+        document.getElementById("user-panel").style.display = "none";
+        document.getElementById("wishlist-list").innerHTML = "";
       }
+    }
 
-      window.removeItem = function(listId, index, key) {
-        if (key === wishlistKey) {
-          wishlist.splice(index, 1);
-          updateList(listId, wishlist, key);
-        }
-      }
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      auth.signInWithEmailAndPassword(email, password).catch(e => alert(e.message));
+    }
 
-      window.addToWishlist = function(item) {
+    function signup() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      auth.createUserWithEmailAndPassword(email, password).catch(e => alert(e.message));
+    }
+
+    function logout() {
+      auth.signOut();
+    }
+
+    function addToWishlist(item) {
+      if (!currentUser) return alert("Please log in first.");
+      const ref = db.ref("wishlists/" + currentUser.uid);
+      ref.once("value", snap => {
+        let wishlist = snap.val() || [];
         if (!wishlist.includes(item)) {
           wishlist.push(item);
-          updateList("wishlist-list", wishlist, wishlistKey);
+          ref.set(wishlist);
           showNoti("✅ Added to wishlist!");
+          loadWishlist();
         }
-      }
+      });
+    }
 
-      function showNoti(message) {
-        const noti = document.getElementById("noti");
-        noti.textContent = message;
-        noti.classList.add("show");
-        setTimeout(() => {
-          noti.classList.remove("show");
-        }, 2000);
-      }
+    function removeWishlistItem(index) {
+      const ref = db.ref("wishlists/" + currentUser.uid);
+      ref.once("value", snap => {
+        let wishlist = snap.val() || [];
+        wishlist.splice(index, 1);
+        ref.set(wishlist);
+        loadWishlist();
+      });
+    }
 
-      updateList("wishlist-list", wishlist, wishlistKey);
-    };
+    function loadWishlist() {
+      if (!currentUser) return;
+      const ref = db.ref("wishlists/" + currentUser.uid);
+      ref.once("value", snap => {
+        const list = document.getElementById("wishlist-list");
+        list.innerHTML = "";
+        (snap.val() || []).forEach((item, index) => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          const x = document.createElement("button");
+          x.textContent = "❌";
+          x.onclick = () => removeWishlistItem(index);
+          li.appendChild(x);
+          list.appendChild(li);
+        });
+      });
+    }
+
+    auth.onAuthStateChanged(updateUI);
+
+    document.querySelectorAll(".tab-button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-button").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
   </script>
 </body>
 </html>
