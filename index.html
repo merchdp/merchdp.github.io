@@ -11,28 +11,21 @@
     --main-dark: #111;
     --main-light: #eee;
   }
-
-  /* BODY & LAYOUT FIXES */
   body {
     margin: 0;
-    padding: 0 15px;
+    font-family: Arial, sans-serif;
+    background: var(--main-black);
+    color: var(--main-light);
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-    background: var(--main-black);
-    color: var(--main-light);
   }
-
-  section {
-    width: 100%;
+  header, nav, footer {
     max-width: 900px;
-    margin: 20px auto;
-    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
   }
-
   header {
     background: var(--main-dark);
     padding: 20px;
@@ -40,23 +33,14 @@
     font-size: 2rem;
     color: var(--main-green);
     text-shadow: 0 0 8px var(--main-green);
-    width: 100%;
-    max-width: 900px;
-    margin-top: 20px;
-    border-radius: 10px;
   }
-
   nav {
     display: flex;
     justify-content: center;
     gap: 1rem;
     background: var(--main-dark);
     padding: 10px 0;
-    width: 100%;
-    max-width: 900px;
-    border-radius: 10px;
   }
-
   nav button {
     background: none;
     border: none;
@@ -65,18 +49,27 @@
     cursor: pointer;
     padding: 8px 16px;
   }
-
   nav button.active {
     text-decoration: underline;
   }
-
+  section {
+    display: none;
+    padding: 20px;
+    max-width: 900px;
+    width: 100%;
+    margin: auto;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  section.active {
+    display: block;
+  }
   .merch-items {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
   }
-
   .item-card {
     background: var(--main-dark);
     border-radius: 12px;
@@ -87,17 +80,14 @@
     flex-direction: column;
     align-items: center;
   }
-
   .item-card img {
     width: 100%;
     border-radius: 8px;
     object-fit: contain;
   }
-
   .item-card h3 {
     margin: 12px 0 8px;
   }
-
   .item-card button {
     background: none;
     border: 2px solid var(--main-green);
@@ -107,26 +97,22 @@
     padding: 6px 12px;
     font-weight: bold;
   }
-
   .item-card button:disabled {
     opacity: 0.4;
     cursor: not-allowed;
   }
-
   .status-label {
     font-style: italic;
     color: #aaa;
     margin-top: 6px;
   }
-
   #wishlist-list {
     list-style: none;
     padding: 0;
     max-width: 600px;
     margin: auto;
-    text-align: left; /* keep wishlist items left aligned */
+    text-align: left;
   }
-
   #wishlist-list li {
     background: var(--main-dark);
     padding: 10px 15px;
@@ -136,7 +122,6 @@
     justify-content: space-between;
     align-items: center;
   }
-
   #wishlist-list li button {
     background: var(--main-green);
     border: none;
@@ -146,7 +131,6 @@
     border-radius: 4px;
     padding: 2px 6px;
   }
-
   #noti {
     position: fixed;
     top: -60px;
@@ -162,7 +146,6 @@
     opacity: 0;
     z-index: 9999;
   }
-
   #noti.show {
     top: 20px;
     opacity: 1;
@@ -182,7 +165,6 @@
     font-weight: bold;
     z-index: 10000;
   }
-
   #admin-panel {
     display: none;
     position: fixed;
@@ -197,13 +179,11 @@
     box-shadow: 0 0 15px var(--main-green);
     z-index: 10000;
   }
-
   #admin-panel h3 {
     margin-top: 0;
     margin-bottom: 12px;
     color: var(--main-green);
   }
-
   #admin-panel input,
   #admin-panel select {
     width: 100%;
@@ -213,7 +193,6 @@
     border: none;
     font-size: 1rem;
   }
-
   #admin-panel button {
     background: var(--main-green);
     border: none;
@@ -224,7 +203,6 @@
     font-weight: bold;
     margin-right: 8px;
   }
-
   .prd-item {
     background: #222;
     padding: 10px;
@@ -234,7 +212,6 @@
     justify-content: space-between;
     align-items: center;
   }
-
   .prd-item button {
     padding: 4px 8px;
   }
@@ -242,14 +219,13 @@
   /* Auth panel */
   #auth-panel {
     max-width: 320px;
-    margin: 10px auto 20px;
+    margin: 10px auto;
     background: var(--main-dark);
     padding: 12px 20px;
     border-radius: 12px;
     box-shadow: 0 0 15px var(--main-green);
     text-align: center;
   }
-
   #auth-panel input {
     width: 90%;
     margin: 8px 0;
@@ -258,7 +234,6 @@
     border-radius: 8px;
     border: none;
   }
-
   #auth-panel button {
     background: var(--main-green);
     border: none;
@@ -269,15 +244,12 @@
     cursor: pointer;
     margin: 5px 4px;
   }
-
   #user-info {
     margin-top: 12px;
   }
-
   #user-info span {
     font-weight: bold;
   }
-
   #user-info button {
     background: #f44336;
     color: #fff;
@@ -286,15 +258,6 @@
     border: none;
     cursor: pointer;
     font-weight: bold;
-  }
-
-  footer {
-    margin: 40px auto 20px;
-    color: #666;
-    font-size: 0.9rem;
-    text-align: center;
-    max-width: 900px;
-    width: 100%;
   }
 </style>
 </head>
@@ -389,9 +352,6 @@
   const userInfo = document.getElementById("user-info");
   const userEmailSpan = document.getElementById("user-email");
 
-  const tabButtons = document.querySelectorAll(".tab-button");
-  const sections = document.querySelectorAll("section");
-
   const merchContainer = document.getElementById("merch-container");
   const wishlistList = document.getElementById("wishlist-list");
   const noti = document.getElementById("noti");
@@ -446,14 +406,19 @@
     }
   });
 
-  // Tabs
-  tabButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      tabButtons.forEach(b => b.classList.remove("active"));
-      sections.forEach(s => s.classList.remove("active"));
-      btn.classList.add("active");
-      const tabName = btn.dataset.tab;
-      document.getElementById(tabName).classList.add("active");
+  // Tabs inside DOMContentLoaded
+  document.addEventListener("DOMContentLoaded", () => {
+    const tabButtons = document.querySelectorAll(".tab-button");
+    const sections = document.querySelectorAll("section");
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabButtons.forEach(b => b.classList.remove("active"));
+        sections.forEach(s => s.classList.remove("active"));
+        btn.classList.add("active");
+        const tabName = btn.dataset.tab;
+        document.getElementById(tabName).classList.add("active");
+      });
     });
   });
 
