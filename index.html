@@ -10,16 +10,16 @@
   <style>
     :root {
       --main-green: #00ff88;
-      --main-black: #000;
       --main-dark: #111;
+      --main-black: #000;
       --main-light: #eee;
     }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: var(--main-black);
       color: var(--main-light);
-      padding: 0 10px;
     }
     header {
       background: var(--main-dark);
@@ -32,9 +32,8 @@
     nav {
       display: flex;
       justify-content: center;
-      gap: 1rem;
       background: var(--main-dark);
-      padding: 10px 0;
+      padding: 10px;
     }
     nav button {
       background: none;
@@ -42,31 +41,40 @@
       color: var(--main-green);
       font-size: 1rem;
       cursor: pointer;
-      padding: 8px 16px;
+      margin: 0 10px;
     }
     nav button.active {
+      font-weight: bold;
       text-decoration: underline;
     }
     section {
       display: none;
-      padding: 20px 0;
+      padding: 20px;
     }
     section.active {
       display: block;
     }
     .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 20px;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
       text-align: center;
     }
-    .wishlist-btn, .remove-btn {
-      margin: 5px;
-      padding: 5px 10px;
-      border: none;
-      cursor: pointer;
+    .wishlist-btn, .remove-btn, .login-btn {
       background-color: var(--main-green);
       color: black;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    input, select {
+      margin: 5px;
+      padding: 6px;
+    }
+    #login-section {
+      text-align: center;
+      margin: 30px;
     }
     .noti {
       position: fixed;
@@ -96,6 +104,13 @@
 </head>
 <body>
   <header>PandyVR Merch</header>
+  <div id="login-section">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button class="login-btn" onclick="login()">Login</button>
+    <button class="login-btn" onclick="signup()">Sign Up</button>
+  </div>
+
   <nav>
     <button class="tab-button active" data-tab="home">Home</button>
     <button class="tab-button" data-tab="shop">Shop</button>
@@ -106,8 +121,8 @@
 
   <section id="home" class="active">
     <div class="container">
-      <h2>Welcome!</h2>
-      <p>Explore exclusive Gorilla Tag merch by <strong>PandyVR</strong>.</p>
+      <h2>Welcome to the Official PandyVR Merch Store!</h2>
+      <p>Stickers, models, cups and more — coming soon!</p>
     </div>
   </section>
 
@@ -140,12 +155,6 @@
     </div>
   </div>
 
-  <footer>
-    <div class="container">
-      &copy; 2025 PandyVR. All rights reserved.
-    </div>
-  </footer>
-
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCKZnGtKjhT0DpKy2JZBGragljB2DEhinY",
@@ -160,11 +169,31 @@
     const db = firebase.database();
     let userId = null;
 
-    firebase.auth().signInAnonymously().then(user => {
-      userId = user.user.uid;
-      loadProducts();
-      loadWishlist();
-    });
+    function login() {
+      const email = document.getElementById("email").value;
+      const pass = document.getElementById("password").value;
+      firebase.auth().signInWithEmailAndPassword(email, pass)
+        .then(user => {
+          userId = user.user.uid;
+          document.getElementById("login-section").style.display = "none";
+          showNoti("Logged in!");
+          loadProducts();
+          loadWishlist();
+        })
+        .catch(err => alert("Login failed: " + err.message));
+    }
+
+    function signup() {
+      const email = document.getElementById("email").value;
+      const pass = document.getElementById("password").value;
+      firebase.auth().createUserWithEmailAndPassword(email, pass)
+        .then(user => {
+          userId = user.user.uid;
+          document.getElementById("login-section").style.display = "none";
+          showNoti("Account created!");
+        })
+        .catch(err => alert("Signup failed: " + err.message));
+    }
 
     const tabs = document.querySelectorAll(".tab-button");
     const sections = document.querySelectorAll("section");
@@ -194,7 +223,7 @@
           const div = document.createElement("div");
           div.innerHTML = \`
             <h3>\${prod.title}</h3>
-            <img src="\${prod.image}" alt="\${prod.title}" width="150" />
+            <img src="\${prod.image}" width="150" />
             <p>Status: \${prod.status}</p>
             <button class="wishlist-btn" onclick="addToWishlist('\${id}')">♡ Wishlist</button>
           \`;
@@ -240,9 +269,9 @@
       const code = document.getElementById("admin-code").value;
       if (code === "12907654") {
         document.getElementById("admin-form").style.display = "block";
-        showNoti("Admin access granted.");
+        showNoti("Admin mode enabled");
       } else {
-        alert("Wrong code.");
+        alert("Wrong code");
       }
     }
 
